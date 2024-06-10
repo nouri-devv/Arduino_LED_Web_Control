@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>LED Control Panel</title>
+</head>
+<body>
+    <h1>Arduino LED Control</h1>
+    <button id="toggleRed">Toggle Red</button>
+    <button id="toggleGreen">Toggle Green</button>
+    <button id="toggleBlue">Toggle Blue</button>
+
+    <script type="module">
+        // Import the Firebase modules needed
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-analytics.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCdc92EX6qwPQpMCmgVRertFW0kJd6xDgA",
+            authDomain: "traffic-control-3c3b4.firebaseapp.com",
+            databaseURL: "https://traffic-control-3c3b4-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "traffic-control-3c3b4",
+            storageBucket: "traffic-control-3c3b4.appspot.com",
+            messagingSenderId: "337927668769",
+            appId: "1:337927668769:web:ccaa5cbcbdfa4c19c64f60",
+            measurementId: "G-74CS3HLZ7Q"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
+        // Function to toggle LED state in Firebase
+        function toggleLED(color) {
+            const ledRef = ref(database, color);
+            onValue(ledRef, (snapshot) => {
+                const isOn = snapshot.val();
+                set(ledRef, !isOn); // Toggle the current state
+            }, {
+                onlyOnce: true // Ensures the listener is triggered only once
+            });
+        }
+
+        // Add event listeners after DOM content is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('toggleRed').addEventListener('click', () => toggleLED('red'));
+            document.getElementById('toggleGreen').addEventListener('click', () => toggleLED('green'));
+            document.getElementById('toggleBlue').addEventListener('click', () => toggleLED('blue'));
+        });
+    </script>
+</body>
+</html>
+
+
+
