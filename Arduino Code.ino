@@ -7,8 +7,8 @@ const char ssid[] = SECRET_SSID;
 const char pass[] = SECRET_PASS;
 
 // Firebase project details
-const char* host = "add_here";
-const int httpsPort = 000;
+const char* host = "traffic-control-3c3b4-default-rtdb.asia-southeast1.firebasedatabase.app";
+const int httpsPort = 443;
 
 WiFiSSLClient wifiClient;
 HttpClient client = HttpClient(wifiClient, host, httpsPort);
